@@ -23,7 +23,7 @@ Consider `x-cache` and `x-cache-method` in following examples which:
 
 - x-cache-method: Determine which strategy used for caching **REGULAR** _default caching behavior_, **SLICE** _byte range caching strategy_.
 
-> curl -Ik https://pp-cdn.ddns.net
+> curl -Ik https://127.0.0.1:443;
 
 ```sh
 HTTP/2 200
@@ -36,6 +36,9 @@ x-cache: HIT
 x-cache-method: REGULAR
 
 ```
+Access logs:
+
+> curl -Ik https://127.0.0.1:443/access.logs;
 
 ## License
 

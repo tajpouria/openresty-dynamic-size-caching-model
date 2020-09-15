@@ -1,2 +1,4 @@
 cache/**/*
 logs/*
+proxy_temp
+**/*.swp

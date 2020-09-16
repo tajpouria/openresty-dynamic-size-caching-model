@@ -1,6 +1,6 @@
 # openresty-dynamic-caching-model
 
-An NGINX/Openresty configuration model that alter between default and slice caching method based on request_uri
+An NGINX/Openresty configuration model that alter between default and slice caching method based on upstream content length.
 
 **This repository not considered as a production ready model**
 
@@ -15,30 +15,48 @@ configure arguments: --prefix=/usr/local/openresty/nginx --with-cc-opt=-O2 --add
 
 ```
 
-e.g.
+## Prerequisite
 
-Consider `x-cache` and `x-cache-method` in following examples which:
+- [ledgetech/lua-resty-http](https://github.com/ledgetech/lua-resty-http)
 
-- x-cache: Determine whether content cached from cache or not.
+## Example
 
-- x-cache-method: Determine which strategy used for caching **REGULAR** _default caching behavior_, **SLICE** _byte range caching strategy_.
+Consider `x-cache`, `x-handled-by-lua`, and, `x-handled-by-slice-cache` in following examples which:
 
-> curl -Ik https://127.0.0.1:443;
+- x-cache: Determine whether content served from cache or not.
+
+- x-handled-by-lua: Equals to 1 if content caching not handled by slice cache.
+
+- x-handled-by-slice-cache: Equals to 1 if content caching handled by slice cache.
+
+> curl -I https://127.0.0.1:443;
 
 ```sh
 HTTP/2 200
 server: openresty/1.15.8.3
-date: Tue, 15 Sep 2020 09:46:59 GMT
+date: Wed, 16 Sep 2020 12:32:01 GMT
 content-type: text/html
+x-handled-by-lua: 1
 vary: Accept-Encoding
-strict-transport-security: max-age=31536000; includeSubDomains
-x-cache: HIT
-x-cache-method: REGULAR
+x-cache: MISS
 
 ```
-Access logs:
 
-> curl -Ik https://127.0.0.1:443/access.logs;
+> curl -I https://127.0.0.1:443/Apporiginal/CDisplayExWin32v1.10.33.PerDL.ir.exe;
+
+```sh
+HTTP/2 200
+server: openresty/1.15.8.3
+date: Wed, 16 Sep 2020 12:37:44 GMT
+content-type: application/octet-stream
+content-length: 7269345
+x-handled-by-slice-cache: 1
+last-modified: Sat, 09 Nov 2019 10:26:08 GMT
+etag: "5dc69440-6eebe1"
+x-cache: HIT
+accept-ranges: bytes
+
+```
 
 ## License
 

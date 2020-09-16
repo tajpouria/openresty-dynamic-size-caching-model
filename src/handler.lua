@@ -1,9 +1,9 @@
 function isLargeContent(contentLen)
-    if tonumber(contentLen) >= 2e+6 then
-       return true
-    else
-       return false
-    end
+	if tonumber(contentLen) >= 2e+6 then
+		return true
+		else
+		return false
+	end
 end
 
 return function()
@@ -23,7 +23,7 @@ return function()
 		local upcl = res.headers['Content-Length']
 		if upcl then
 			if isLargeContent(upcl) then
-				ngx.var.slice_cache = 1
+				ngx.var.slice_cache = '0'
 				ngx.header['X-Handled-By-Slice-Cache'] = '1'
 				ngx.var.upstream = upstream		
 				return
